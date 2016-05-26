@@ -1,12 +1,24 @@
 // running : true
 
 model = {
-	break : 5,
+	break : 1,
 	session: 25,
+	currentBreak: {
+		minutes: 1,
+		seconds: 2,
+	},
+	currentSession: {
+		minutes: 5,
+		seconds: 10,
+	},
+	
 };
 
 controller = {
 	init: function(){
+		window.setInterval(function(){
+			controller.countDown("currentBreak");
+		}, 1000);
 		view.init();
 	},
 
@@ -21,7 +33,34 @@ controller = {
 
 	retrieveTime: function(timeType){
 		return model[timeType];
+	},
+
+	countDown: function(timeType){
+		// var elem = document.getElementById("breakSecondsDisplay");
+		// var currentDisplayTime = parseFloat(countdown.textContent);
+		
+		// elem.textContent = currentDisplayTime - 1;
+
+		// currentSeconds = model.currentBreak.seconds;
+		if(model[timeType].seconds>0){
+			model[timeType].seconds --;
+
+		} else if (model[timeType].seconds===0){
+			model[timeType].seconds=2;
+			model[timeType].minutes--;
+		} 
+
+		if (model[timeType].minutes===0 && model[timeType].seconds===0){
+			console.log("hello");
+		}
+		
+		$("#breakSecondsDisplay").text(model.currentBreak.seconds);
+		$("#breakDisplay").text(model.currentBreak.minutes);
 	}
+
+	// var countItDown = function() {
+ //    	countdown.textContent = parseFloat(countdown.textContent) - 1;  
+ //  	};
 };
 
 view = {
