@@ -1,24 +1,22 @@
 // running : true
 
 model = {
-	break : 1,
-	session: 25,
-	currentBreak: {
-		minutes: 1,
-		seconds: 2,
+	break : 3,
+	session: 3,
+	breakCurrent: {
+		minutes: 3,
+		seconds: 3,
 	},
-	currentSession: {
-		minutes: 5,
-		seconds: 10,
+	sessionCurrent: {
+		minutes: 3,
+		seconds: 3,
 	},
-	
+	currentRunning: "session",
 };
 
 controller = {
 	init: function(){
-		window.setInterval(function(){
-			controller.countDown("currentBreak");
-		}, 1000);
+		this.countDownClick();
 		view.init();
 	},
 
@@ -35,27 +33,69 @@ controller = {
 		return model[timeType];
 	},
 
-	countDown: function(timeType){
+	countDownClick: function(){
+
+		var timer;
+
+		if (model.currentRunning==="session"){
+			timer = window.setInterval(function(){
+				controller.countDown("session", timer);
+			}, 1000);
+		} else if (model.currentRunning==="break"){
+			timer = window.setInterval(function(){
+				controller.countDown("break", timer);
+			}, 1000);
+		}
+
+		$("#stop").on("click", function(){
+			window.clearInterval(timer);
+		});
+
+	},
+
+	stopCountDown: function(){
+		window.clearInterval(function(){
+			controller.startCountDown("session");
+		});
+	},
+
+
+	countDown: function(timeType, timer){
 		// var elem = document.getElementById("breakSecondsDisplay");
 		// var currentDisplayTime = parseFloat(countdown.textContent);
 		
 		// elem.textContent = currentDisplayTime - 1;
 
 		// currentSeconds = model.currentBreak.seconds;
-		if(model[timeType].seconds>0){
-			model[timeType].seconds --;
 
-		} else if (model[timeType].seconds===0){
-			model[timeType].seconds=2;
-			model[timeType].minutes--;
+		var current = timeType+"Current";
+		if(model[current].seconds>0){
+			model[current].seconds --;
+
+		} else if (model[current].seconds===0){
+			model[current].seconds=3;
+			model[current].minutes--;
 		} 
 
-		if (model[timeType].minutes===0 && model[timeType].seconds===0){
+		if (model[current].minutes===0 && model[current].seconds===0){
 			console.log("hello");
+			
+			if (model.currentRunning==="session"){
+				model.currentRunning="break";
+			} else if (model.currentRunning==="break"){
+				model.currentRunning="session";
+			}
+			window.clearInterval(timer);
+			controller.countDownClick();
+			model[current].seconds = 3;
+			model[current].minutes = model[timeType];
 		}
 		
-		$("#breakSecondsDisplay").text(model.currentBreak.seconds);
-		$("#breakDisplay").text(model.currentBreak.minutes);
+		var minutesDisplay= "#"+timeType+"Display";
+		var secondsDisplay= "#"+timeType+"SecondsDisplay";
+		$(secondsDisplay).text(model[current].seconds);
+		$(minutesDisplay).text(model[current].minutes);
+		
 	}
 
 	// var countItDown = function() {
@@ -71,6 +111,7 @@ view = {
 		this.break.subtractTime();
 		this.session.addTime();
 		this.session.subtractTime();
+		this.start();
 	},
 	displayInitalSetTimes: function(){
 		var breakTime = controller.retrieveTime("break");
@@ -111,6 +152,10 @@ view = {
 			view.setTime("session", "subtract", controller.subtractTime);
 		}
 	},
+
+	start: function(){
+		$("#start").on("click", controller.countDownClick);
+	}
 
 	// buttons: {
 	// 	addBreakBtn : function(){
