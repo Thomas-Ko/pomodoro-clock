@@ -1,6 +1,12 @@
 body {
 	background-color: #f36e21;
 	font-family: 'Ubuntu', sans-serif;
+	
+	-webkit-user-select: none;  /* Chrome all / Safari all */
+  	-moz-user-select: none;     /* Firefox all */
+  	-ms-user-select: none;      /* IE 10+ */
+  	user-select: none;          /* Likely future */ 
+  	cursor: default;
 }
 
 h1 {
@@ -29,13 +35,15 @@ h1 {
 	padding-right:5px;
 	margin-right:20px;
 	margin-left:20px;
+	cursor: pointer;
 }
 
 #displayTimeContainer {
 	/*background-color: rgba(255,255,255,0.2);*/
 	padding: 20px;
-	margin-bottom:30px;
-	margin-top:30px;
+	margin-bottom:5px;
+	padding-bottom:15px;
+	margin-top:0px;
 	color: white;
 }
 
@@ -43,6 +51,7 @@ h1 {
 	margin: 0 auto;
 	text-align:center;
 	opacity:0.5;
+	padding:5px;
 }
 
 .display-time h3 {
@@ -59,4 +68,40 @@ h1 {
 .btn {
 	margin-left:10px;
 	margin-right:10px;
+}
+
+@media(max-width:500px) {
+	h1 {
+		font-size:40px;
+	}
+
+	.length-btn{
+		margin-right:5px;
+		margin-left:5px;
+	}
+
+	.display-time {
+		padding:20px;
+	}
+
+	.display-time h2 {
+		margin-top:0px;
+	}
+
+	.display-time h3 {
+		font-size:50px;
+		margin-bottom:0px;
+		margin-top:0px;
+		padding-top:0px;
+	}
+
+	.set-time h3 {
+		font-size:15px;
+	}
+
+	#displayTimeContainer {
+		padding-top: 10px;
+		margin-bottom:20px;
+		margin-top:0px;
+	}
 }
