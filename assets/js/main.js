@@ -30,6 +30,7 @@ controller = {
 		// view.displayInitalSetTimes();
 
 		controller.resetTime();
+		model.currentRunning = "session";
 	},
 	subtractTime: function(timeType){
 		if(model[timeType]>1){
@@ -37,6 +38,7 @@ controller = {
 		}
 
 		controller.resetTime();
+		model.currentRunning = "session";
 
 		// model[timeType+"Current"].minutes = model[timeType];
 		// model[timeType+"Current"].seconds=0;
@@ -57,10 +59,12 @@ controller = {
 			timer = window.setInterval(function(){
 				controller.countDown("session", timer);
 			}, 1000);
+			console.log("RUNNING SESSION");
 		} else if (model.currentRunning==="break"){
 			timer = window.setInterval(function(){
 				controller.countDown("break", timer);
 			}, 1000);
+			console.log("RUNNING BREAK");
 		}
 
 
@@ -86,6 +90,7 @@ controller = {
 		$("#reset").on("click", function(){
 			window.clearInterval(timer);
 			controller.resetTime();
+			model.currentRunning = "session";
 			// timer = window.setInterval(function(){
 			// 	controller.countDown("session", timer);
 			// }, 1000);
@@ -101,14 +106,13 @@ controller = {
 
 	resetTime: function(){
 		model.timerRunning = false;
-		model.currentRunning = "session";
+		// model.currentRunning = "session";		/*CHANGE THIS*/
 
 		model.sessionCurrent.seconds = 0;
 		model.breakCurrent.seconds = 0;
 
 		model.breakCurrent.minutes = model.break;
 		model.sessionCurrent.minutes = model.session;
-		model.currentRunning = "session";
 		view.displayInitalSetTimes();
 
 	},
@@ -127,7 +131,7 @@ controller = {
 			model[current].seconds --;
 
 		} else if (model[current].seconds===0){
-			model[current].seconds=59;
+			model[current].seconds=2;
 			model[current].minutes--;
 		}
 
@@ -140,6 +144,7 @@ controller = {
 			
 			if (model.currentRunning==="session"){
 				model.currentRunning="break";
+
 				
 			} else if (model.currentRunning==="break"){
 				model.currentRunning="session";

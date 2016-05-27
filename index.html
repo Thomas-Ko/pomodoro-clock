@@ -9,7 +9,8 @@
   	<title>Pomodoro Clock</title>
 
    <!-- FONTS -->
-  	
+  	 <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu:400,500' rel='stylesheet' type='text/css'>
 
    <!-- STYLESHEETS -->
 
@@ -43,16 +44,16 @@
          
          <div class="col-md-6 set-time">
             <h3>Break Length</h3>
-            <span id="breakLength">0</span><br>
-            <button id="addBreakBtn"> + </button>
-            <button id="subtractBreakBtn"> - </button>
+            <span class="length-btn" id="subtractBreakBtn">-</span>
+            <span id="breakLength">0</span>
+            <span class="length-btn" id="addBreakBtn">+</span>
          </div>
 
          <div class="col-md-6 set-time">
             <h3>Session Length</h3>
-            <span id="sessionLength">0</span><br>
-            <button id="addSessionBtn"> + </button>
-            <button id="subtractSessionBtn"> - </button>
+            <span class="length-btn" id="subtractSessionBtn">-</span>
+            <span id="sessionLength">0</span>
+            <span class="length-btn" id="addSessionBtn">+</span>
       
          </div>
 
@@ -60,24 +61,23 @@
 
       <div class="row" id="displayTimeContainer">
          
-         <div class="col-xs-12 display-time">
+         <div class="col-xs-12 display-time" id="sessionDisplayContainer">
             <h2>Session Time</h2>
             <h3><span id="sessionDisplay">0</span>:<span id="sessionSecondsDisplay">00</span></h3>
          </div>
 
-         <div class="col-xs-12 display-time">
+         <div class="col-xs-12 display-time" id="breakDisplayContainer">
             <h2>Break Time</h2>
             <h3><span id="breakDisplay">0</span>:<span id="breakSecondsDisplay">00</span></h3>
-      
+         </div>
+
+         <div class="col-xs-12 text-center">
+            <button id="startBeginning">Start</button>
+            <button id="stop">Stop</button>
+            <button id="reset">Reset</button>
          </div>
 
       </div>   <!-- /.row -->
-
-      <div class="row text-center">
-         <button id="startBeginning">Start</button>
-         <button id="stop">Stop</button>
-         <button id="reset">Reset</button>
-      </div>
 
    </div>    <!-- /.container -->
   
