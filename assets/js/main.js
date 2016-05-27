@@ -12,29 +12,35 @@ model = {
 		seconds: 0,
 	},
 	currentRunning: "session",
+	timerRunning: false,
 };
 
 controller = {
 	init: function(){
 		view.init();
+		// controller.resetCountDown();
 	},
 
 	addTime : function(timeType){
 		model[timeType]++;
-		model[timeType+"Current"].minutes = model[timeType];
-		model[timeType+"Current"].seconds=0;
-		// $("#"+timeType + "SecondsDisplay").text("00");
+		// model[timeType+"Current"].minutes = model[timeType];
+		// model[timeType+"Current"].seconds=0;
+		// model.currentRunning = "session";
+		// view.displayInitalSetTimes();
 
-		view.displayInitalSetTimes();
+		controller.resetTime();
 	},
 	subtractTime: function(timeType){
 		if(model[timeType]>1){
 			model[timeType]--;
 		}
 
-		model[timeType+"Current"].minutes = model[timeType];
-		model[timeType+"Current"].seconds=0;
-		view.displayInitalSetTimes();
+		controller.resetTime();
+
+		// model[timeType+"Current"].minutes = model[timeType];
+		// model[timeType+"Current"].seconds=0;
+		// model.currentRunning = "session";
+		// view.displayInitalSetTimes();
 
 	},
 
@@ -56,8 +62,31 @@ controller = {
 			}, 1000);
 		}
 
+
 		$("#stop,  #subtractSessionBtn, #addBreakBtn, #subtractBreakBtn, #addSessionBtn").on("click", function(){
 			window.clearInterval(timer);
+			model.timerRunning = false;
+		});
+
+		
+		$("#start").on("click", function(){
+		// window.clearInterval(timer);
+			if(!model.timerRunning){
+				window.clearInterval(timer);
+				timer = window.setInterval(function(){
+				controller.countDown("session", timer);
+				}, 1000);
+				model.timerRunning = true;
+			}
+		});
+
+		//resets the timer
+		$("#reset").on("click", function(){
+			window.clearInterval(timer);
+			controller.resetTime();
+			timer = window.setInterval(function(){
+				controller.countDown("session", timer);
+			}, 1000);
 		});
 
 	},
@@ -66,6 +95,20 @@ controller = {
 		window.clearInterval(function(){
 			controller.startCountDown("session");
 		});
+	},
+
+	resetTime: function(){
+		model.timerRunning = false;
+		model.currentRunning = "session";
+
+		model.sessionCurrent.seconds = 0;
+		model.breakCurrent.seconds = 0;
+
+		model.breakCurrent.minutes = model.break;
+		model.sessionCurrent.minutes = model.session;
+		model.currentRunning = "session";
+		view.displayInitalSetTimes();
+
 	},
 
 
@@ -112,8 +155,6 @@ controller = {
 		$(secondsDisplay).text(model[current].seconds);
 		$(minutesDisplay).text(model[current].minutes);
 		}
-		
-		
 		
 	}
 
@@ -172,7 +213,11 @@ view = {
 	},
 
 	start: function(){
-		$("#start").on("click", controller.countDownClick);
+		if(model.timerRunning===false){
+			model.timerRunning = true;
+			$("#start").one("click", controller.countDownClick);
+			
+		}
 	}
 
 	// buttons: {
