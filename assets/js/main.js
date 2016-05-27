@@ -17,6 +17,7 @@ model = {
 
 controller = {
 	init: function(){
+		// controller.countDownClick();
 		view.init();
 		// controller.resetCountDown();
 	},
@@ -49,7 +50,7 @@ controller = {
 	},
 
 	countDownClick: function(){
-
+		controller.resetTime();
 		var timer;
 
 		if (model.currentRunning==="session"){
@@ -77,6 +78,7 @@ controller = {
 				controller.countDown("session", timer);
 				}, 1000);
 				model.timerRunning = true;
+				// controller.countDownClick();
 			}
 		});
 
@@ -84,9 +86,9 @@ controller = {
 		$("#reset").on("click", function(){
 			window.clearInterval(timer);
 			controller.resetTime();
-			timer = window.setInterval(function(){
-				controller.countDown("session", timer);
-			}, 1000);
+			// timer = window.setInterval(function(){
+			// 	controller.countDown("session", timer);
+			// }, 1000);
 		});
 
 	},
@@ -125,7 +127,7 @@ controller = {
 			model[current].seconds --;
 
 		} else if (model[current].seconds===0){
-			model[current].seconds=3;
+			model[current].seconds=59;
 			model[current].minutes--;
 		}
 
@@ -218,7 +220,11 @@ view = {
 	start: function(){
 		if(model.timerRunning===false){
 			model.timerRunning = true;
-			$("#start").one("click", controller.countDownClick);
+			//the below is a sort of hackish way I got around being able to not have the timer start right after a page load
+			$("#startBeginning").one("click", function(){
+				$("#startBeginning").attr("id","start");
+				controller.countDownClick();
+			});
 			
 		}
 	}
