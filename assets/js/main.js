@@ -5,11 +5,11 @@ model = {
 	session: 3,
 	breakCurrent: {
 		minutes: 3,
-		seconds: 60,
+		seconds: 0,
 	},
 	sessionCurrent: {
 		minutes: 3,
-		seconds: 60,
+		seconds: 0,
 	},
 	currentRunning: "session",
 };
@@ -22,13 +22,20 @@ controller = {
 	addTime : function(timeType){
 		model[timeType]++;
 		model[timeType+"Current"].minutes = model[timeType];
-		model[timeType+"Current"].seconds=60;
-		$("#"+timeType + "SecondsDisplay").text("00");
+		model[timeType+"Current"].seconds=0;
+		// $("#"+timeType + "SecondsDisplay").text("00");
+
+		view.displayInitalSetTimes();
 	},
 	subtractTime: function(timeType){
 		if(model[timeType]>1){
 			model[timeType]--;
 		}
+
+		model[timeType+"Current"].minutes = model[timeType];
+		model[timeType+"Current"].seconds=0;
+		view.displayInitalSetTimes();
+
 	},
 
 	retrieveTime: function(timeType){
@@ -77,26 +84,29 @@ controller = {
 		} else if (model[current].seconds===0){
 			model[current].seconds=59;
 			model[current].minutes--;
-		} 
+		}
 
 		var minutesDisplay= "#"+timeType+"Display";
 		var secondsDisplay= "#"+timeType+"SecondsDisplay";
 
+		//when the time reaches 0 
 		if (model[current].minutes===0 && model[current].seconds===0){
 			console.log("hello");
 			
 			if (model.currentRunning==="session"){
 				model.currentRunning="break";
+				
 			} else if (model.currentRunning==="break"){
 				model.currentRunning="session";
+				
 			}
 			window.clearInterval(timer);
 			controller.countDownClick();
-			model[current].seconds = 59;
+			model[current].seconds = 0;
 			model[current].minutes = model[timeType];
 
-			$(secondsDisplay).text("0");
-			$(minutesDisplay).text("0");
+			$(secondsDisplay).text("00");
+			$(minutesDisplay).text(model[timeType]);
 		} else {
 
 		$(secondsDisplay).text(model[current].seconds);
@@ -107,9 +117,6 @@ controller = {
 		
 	}
 
-	// var countItDown = function() {
- //    	countdown.textContent = parseFloat(countdown.textContent) - 1;  
- //  	};
 };
 
 view = {
@@ -129,6 +136,8 @@ view = {
 		$("#breakDisplay").text(breakTime);
 		$("#sessionLength").text(sessionTime);
 		$("#sessionDisplay").text(sessionTime);
+		$("#sessionSecondsDisplay").text("00");
+		$("#breakSecondsDisplay").text("00");
 	},
 
 
