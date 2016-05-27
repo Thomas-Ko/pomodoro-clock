@@ -125,7 +125,7 @@ controller = {
 			model[current].seconds --;
 
 		} else if (model[current].seconds===0){
-			model[current].seconds=59;
+			model[current].seconds=3;
 			model[current].minutes--;
 		}
 
@@ -150,6 +150,9 @@ controller = {
 
 			$(secondsDisplay).text("00");
 			$(minutesDisplay).text(model[timeType]);
+
+			var audio = document.getElementById("audio");
+			audio.play();
 		} else {
 
 		$(secondsDisplay).text(model[current].seconds);
