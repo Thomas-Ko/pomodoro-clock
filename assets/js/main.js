@@ -5,23 +5,25 @@ model = {
 	session: 3,
 	breakCurrent: {
 		minutes: 3,
-		seconds: 3,
+		seconds: 60,
 	},
 	sessionCurrent: {
 		minutes: 3,
-		seconds: 3,
+		seconds: 60,
 	},
 	currentRunning: "session",
 };
 
 controller = {
 	init: function(){
-		this.countDownClick();
 		view.init();
 	},
 
 	addTime : function(timeType){
 		model[timeType]++;
+		model[timeType+"Current"].minutes = model[timeType];
+		model[timeType+"Current"].seconds=60;
+		$("#"+timeType + "SecondsDisplay").text("00");
 	},
 	subtractTime: function(timeType){
 		if(model[timeType]>1){
@@ -47,7 +49,7 @@ controller = {
 			}, 1000);
 		}
 
-		$("#stop").on("click", function(){
+		$("#stop,  #subtractSessionBtn, #addBreakBtn, #subtractBreakBtn, #addSessionBtn").on("click", function(){
 			window.clearInterval(timer);
 		});
 
@@ -73,9 +75,12 @@ controller = {
 			model[current].seconds --;
 
 		} else if (model[current].seconds===0){
-			model[current].seconds=3;
+			model[current].seconds=59;
 			model[current].minutes--;
 		} 
+
+		var minutesDisplay= "#"+timeType+"Display";
+		var secondsDisplay= "#"+timeType+"SecondsDisplay";
 
 		if (model[current].minutes===0 && model[current].seconds===0){
 			console.log("hello");
@@ -87,14 +92,18 @@ controller = {
 			}
 			window.clearInterval(timer);
 			controller.countDownClick();
-			model[current].seconds = 3;
+			model[current].seconds = 59;
 			model[current].minutes = model[timeType];
-		}
-		
-		var minutesDisplay= "#"+timeType+"Display";
-		var secondsDisplay= "#"+timeType+"SecondsDisplay";
+
+			$(secondsDisplay).text("0");
+			$(minutesDisplay).text("0");
+		} else {
+
 		$(secondsDisplay).text(model[current].seconds);
 		$(minutesDisplay).text(model[current].minutes);
+		}
+		
+		
 		
 	}
 
