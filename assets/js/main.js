@@ -1,14 +1,14 @@
 // running : true
 
 model = {
-	break : 3,
-	session: 3,
+	break : 5,
+	session: 25,
 	breakCurrent: {
-		minutes: 3,
+		minutes: 5,
 		seconds: 0,
 	},
 	sessionCurrent: {
-		minutes: 3,
+		minutes: 25,
 		seconds: 0,
 	},
 	currentRunning: "session",
@@ -59,11 +59,15 @@ controller = {
 			timer = window.setInterval(function(){
 				controller.countDown("session", timer);
 			}, 1000);
+			$("#sessionDisplayContainer").addClass("current-time-type");
+			$("#breakDisplayContainer").removeClass("current-time-type");
 			console.log("RUNNING SESSION");
 		} else if (model.currentRunning==="break"){
 			timer = window.setInterval(function(){
 				controller.countDown("break", timer);
 			}, 1000);
+			$("#breakDisplayContainer").addClass("current-time-type");
+			$("#sessionDisplayContainer").removeClass("current-time-type");
 			console.log("RUNNING BREAK");
 		}
 
@@ -82,15 +86,21 @@ controller = {
 				controller.countDown("session", timer);
 				}, 1000);
 				model.timerRunning = true;
+				$("#breakDisplayContainer").removeClass("current-time-type");
+				$("#sessionDisplayContainer").addClass("current-time-type");
 				// controller.countDownClick();
 			}
 		});
 
 		//resets the timer
 		$("#reset").on("click", function(){
+			$("#breakDisplayContainer, #sessionDisplayContainer").removeClass("current-time-type");
 			window.clearInterval(timer);
 			controller.resetTime();
 			model.currentRunning = "session";
+			view.displayInitalSetTimes();
+
+			
 			// timer = window.setInterval(function(){
 			// 	controller.countDown("session", timer);
 			// }, 1000);
@@ -144,11 +154,16 @@ controller = {
 			
 			if (model.currentRunning==="session"){
 				model.currentRunning="break";
+				
 
+				// $("#breakDisplayContainer").show();
+				// $("#sessionDisplayContainer").hide();
 				
 			} else if (model.currentRunning==="break"){
 				model.currentRunning="session";
-				
+				// $("#breakDisplayContainer").hide();
+				// $("#sessionDisplayContainer").show();
+
 			}
 			window.clearInterval(timer);
 			controller.countDownClick();
@@ -189,6 +204,8 @@ view = {
 		$("#sessionDisplay").text(sessionTime);
 		$("#sessionSecondsDisplay").text("00");
 		$("#breakSecondsDisplay").text("00");
+
+
 	},
 
 
@@ -200,6 +217,8 @@ view = {
 			var time = controller.retrieveTime(timeType);
 			$("#"+timeType+"Length").text(time);
 			$("#"+timeType+"Display").text(time);
+
+			$("#breakDisplayContainer, #sessionDisplayContainer").removeClass("current-time-type");
 		});
 
 	},
@@ -225,11 +244,12 @@ view = {
 	start: function(){
 		if(model.timerRunning===false){
 			model.timerRunning = true;
-			//the below is a sort of hackish way I got around being able to not have the timer start right after a page load
 			$("#startBeginning").one("click", function(){
+				//the below is a sort of hackish way I got around being able to not have the timer start right after a page load
 				$("#startBeginning").attr("id","start");
 				controller.countDownClick();
 			});
+
 			
 		}
 	}

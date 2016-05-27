@@ -61,23 +61,26 @@
 
       <div class="row" id="displayTimeContainer">
          
-         <div class="col-xs-12 display-time" id="sessionDisplayContainer">
-            <h2>Session Time</h2>
-            <h3><span id="sessionDisplay">0</span>:<span id="sessionSecondsDisplay">00</span></h3>
-         </div>
+         
+         <div class="row">
+            <div class="col-md-6 display-time" id="breakDisplayContainer">
+               <h2>Break Time</h2>
+               <h3><span id="breakDisplay">0</span>:<span id="breakSecondsDisplay">00</span></h3>
+            </div>
 
-         <div class="col-xs-12 display-time" id="breakDisplayContainer">
-            <h2>Break Time</h2>
-            <h3><span id="breakDisplay">0</span>:<span id="breakSecondsDisplay">00</span></h3>
-         </div>
-
-         <div class="col-xs-12 text-center">
-            <button id="startBeginning">Start</button>
-            <button id="stop">Stop</button>
-            <button id="reset">Reset</button>
+            <div class="col-md-6 display-time" id="sessionDisplayContainer">
+               <h2>Session Time</h2>
+               <h3><span id="sessionDisplay">0</span>:<span id="sessionSecondsDisplay">00</span></h3>
+            </div> 
          </div>
 
       </div>   <!-- /.row -->
+
+      <div class="row text-center">
+            <button id="startBeginning" class="btn btn-lg btn-default">Start</button>
+            <button id="stop" class="btn btn-lg btn-default">Stop</button>
+            <button id="reset" class="btn btn-lg btn-default">Reset</button>
+      </div>
 
    </div>    <!-- /.container -->
   
