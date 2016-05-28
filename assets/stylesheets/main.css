@@ -70,6 +70,19 @@ h1 {
 	margin-right:10px;
 }
 
+footer {
+	text-align: center;
+	margin:20px;
+	margin-top:35px;
+}
+
+
+@media(max-width:992px) {
+	.display-time h3 {
+		font-size:100px;
+	}
+}
+
 @media(max-width:500px) {
 	h1 {
 		font-size:40px;
